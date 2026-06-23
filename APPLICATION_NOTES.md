@@ -9,7 +9,11 @@ conversations/messaging. The focus, as you asked, is on the backend: a clean
 normalized schema with proper Eloquent relationships, thin controllers with
 validation in Form Requests, a small service for the find-or-create
 conversation logic, and a policy so users can only access their own threads.
-The frontend is intentionally plain.
+
+On top of that solid backend I also built a polished, dark-themed frontend: a
+public TruLuv landing page (hero, animated stats, featured members, success
+stories) and a small reusable base-component library plus composables, all in
+pure Vue 3 Composition API + TypeScript with scroll animations and transitions.
 
 **Stack.** Laravel 13 (PHP 8.4) with the official Vue + Inertia starter kit,
 MySQL 8, and Pest for tests. I kept the dependency list lean and used only

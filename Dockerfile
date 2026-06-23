@@ -5,14 +5,15 @@ FROM php:8.4-cli-bookworm
 # System dependencies.
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git unzip zip curl ca-certificates \
-        libzip-dev libicu-dev libonig-dev \
+        libzip-dev libicu-dev libonig-dev libsqlite3-dev \
         libpng-dev libjpeg-dev libfreetype6-dev \
         default-mysql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# PHP extensions.
+# PHP extensions. pdo_sqlite is included so the test suite (which runs on an
+# in-memory SQLite database) can be executed inside the container.
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j"$(nproc)" pdo_mysql zip bcmath intl gd exif pcntl
+    && docker-php-ext-install -j"$(nproc)" pdo_mysql pdo_sqlite zip bcmath intl gd exif pcntl
 
 # Node 22 (for the Vite asset build).
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \

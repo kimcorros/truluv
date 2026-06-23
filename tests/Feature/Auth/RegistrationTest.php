@@ -21,5 +21,6 @@ test('new users can register', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    // New users are sent to complete their dating profile.
+    $response->assertRedirect(route('profiles.edit', absolute: false));
 });

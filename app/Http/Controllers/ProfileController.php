@@ -22,6 +22,7 @@ class ProfileController extends Controller
             'profile' => [
                 'age' => $profile?->age,
                 'gender' => $profile?->gender,
+                'photo_url' => $profile?->photo_url,
                 'bio' => $profile?->bio,
             ],
         ]);
@@ -55,6 +56,7 @@ class ProfileController extends Controller
                 'name' => $user->name,
                 'age' => $user->profile->age,
                 'gender' => $user->profile->gender,
+                'photo' => $user->profile->photo_url,
                 'bio' => $user->profile->bio,
             ],
         ]);

@@ -16,6 +16,7 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'age' => ['required', 'integer', 'min:18', 'max:120'],
             'gender' => ['nullable', 'string', 'max:255'],
+            'photo_url' => ['nullable', 'url', 'max:2048'],
             'bio' => ['required', 'string', 'max:2000'],
         ];
     }

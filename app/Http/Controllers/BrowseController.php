@@ -25,6 +25,7 @@ class BrowseController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'age' => $user->profile->age,
+                'photo' => $user->profile->photo_url,
                 'bio_excerpt' => Str::limit($user->profile->bio, 120),
             ]);
 

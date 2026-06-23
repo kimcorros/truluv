@@ -23,15 +23,20 @@ class ConversationController extends Controller
 
         $conversations = Conversation::query()
             ->forUser($me)
-            ->with(['userOne', 'userTwo', 'latestMessage'])
+            ->with(['userOne.profile', 'userTwo.profile', 'latestMessage'])
             ->withMax('messages as last_message_at', 'created_at')
             ->orderByDesc('last_message_at')
             ->get()
-            ->map(fn (Conversation $conversation) => [
-                'id' => $conversation->id,
-                'other_name' => $conversation->otherParticipant($me)->name,
-                'last_message' => $conversation->latestMessage?->body,
-            ]);
+            ->map(function (Conversation $conversation) use ($me) {
+                $other = $conversation->otherParticipant($me);
+
+                return [
+                    'id' => $conversation->id,
+                    'other_name' => $other->name,
+                    'other_photo' => $other->profile?->photo_url,
+                    'last_message' => $conversation->latestMessage?->body,
+                ];
+            });
 
         return Inertia::render('conversations/Index', [
             'conversations' => $conversations,
@@ -58,12 +63,14 @@ class ConversationController extends Controller
         $this->authorize('view', $conversation);
 
         $me = $request->user();
-        $conversation->load(['messages.sender', 'userOne', 'userTwo']);
+        $conversation->load(['messages.sender', 'userOne.profile', 'userTwo.profile']);
+        $other = $conversation->otherParticipant($me);
 
         return Inertia::render('conversations/Show', [
             'conversation' => [
                 'id' => $conversation->id,
-                'other_name' => $conversation->otherParticipant($me)->name,
+                'other_name' => $other->name,
+                'other_photo' => $other->profile?->photo_url,
             ],
             'messages' => $conversation->messages->map(fn (Message $message) => [
                 'id' => $message->id,

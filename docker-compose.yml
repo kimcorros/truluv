@@ -5,16 +5,10 @@ services:
             dockerfile: Dockerfile
         ports:
             - '8000:8000'
-        environment:
-            APP_ENV: local
-            APP_DEBUG: 'true'
-            APP_URL: http://localhost:8000
-            DB_CONNECTION: mysql
-            DB_HOST: mysql
-            DB_PORT: '3306'
-            DB_DATABASE: trulove
-            DB_USERNAME: trulove
-            DB_PASSWORD: secret
+        # All app configuration (including the MySQL credentials below) comes
+        # from .env, which the entrypoint creates from .env.example. Keeping it
+        # out of the container environment lets `php artisan test` use its own
+        # in-memory SQLite config without interference.
         depends_on:
             mysql:
                 condition: service_healthy

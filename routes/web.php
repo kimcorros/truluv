@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\BrowseController;
 use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// Send visitors straight into the app: browse if logged in, otherwise login.
-Route::get('/', fn () => redirect()->route(auth()->check() ? 'browse' : 'login'))->name('home');
+// Public TruLuv landing page.
+Route::get('/', LandingController::class)->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');

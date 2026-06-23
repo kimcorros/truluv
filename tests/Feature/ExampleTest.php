@@ -1,7 +1,9 @@
 <?php
 
-test('the home page sends guests to the login screen', function () {
-    $response = $this->get(route('home'));
+use Inertia\Testing\AssertableInertia;
 
-    $response->assertRedirect(route('login'));
+test('the landing page renders for guests', function () {
+    $this->get(route('home'))
+        ->assertOk()
+        ->assertInertia(fn (AssertableInertia $page) => $page->component('Landing'));
 });

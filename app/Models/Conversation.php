@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Database\Factories\ConversationFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $user_one_id
  * @property int $user_two_id
  */
+#[Fillable(['user_one_id', 'user_two_id'])]
 class Conversation extends Model
 {
     /** @use HasFactory<ConversationFactory> */

@@ -1,0 +1,17 @@
+.git
+.github
+node_modules
+vendor
+.env
+.env.*
+!.env.example
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/logs/*
+/resources/js/actions
+/resources/js/routes
+/resources/js/wayfinder
+/database/database.sqlite
+.DS_Store

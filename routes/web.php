@@ -6,7 +6,8 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'Welcome')->name('home');
+// Send visitors straight into the app: browse if logged in, otherwise login.
+Route::get('/', fn () => redirect()->route(auth()->check() ? 'browse' : 'login'))->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');

@@ -13,9 +13,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $user_id
  * @property int $age
  * @property string|null $gender
+ * @property string|null $photo_url
  * @property string $bio
  */
-#[Fillable(['age', 'gender', 'bio'])]
+#[Fillable(['age', 'gender', 'photo_url', 'bio'])]
 class Profile extends Model
 {
     /** @use HasFactory<ProfileFactory> */

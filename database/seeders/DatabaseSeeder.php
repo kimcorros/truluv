@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ->has(Profile::factory()->state([
                 'age' => 29,
                 'gender' => 'female',
+                'photo_url' => 'https://randomuser.me/api/portraits/women/65.jpg',
                 'bio' => 'Coffee, hiking and bad puns. Say hi!',
             ]))
             ->create([

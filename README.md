@@ -1,22 +1,34 @@
-# TruLove — Laravel dating-site proof of concept
+# TruLuv — Laravel dating-site proof of concept
 
-A small, backend-focused proof of concept for a simple dating-style website:
-registration/login, a basic dating profile, browsing other profiles, and
-one-to-one messaging. The emphasis is on a clean database design, idiomatic
-Laravel structure, and a setup that runs locally with a single command.
+A proof of concept for a simple dating-style website: a marketing landing page,
+registration/login, a dating profile, browsing other profiles, and one-to-one
+messaging. It pairs a clean database design and idiomatic Laravel structure with
+a polished, dark-themed Vue frontend, and runs locally with a single command.
 
 ## Stack
 
 | Layer        | Choice | Why |
 |--------------|--------|-----|
 | Framework    | **Laravel 13** (PHP 8.4) | Current stable Laravel. |
-| Front end    | **Vue 3 + Inertia + Vite + Tailwind 4** (official Vue starter kit) | First-party, widely-adopted way to do Vue inside a Laravel monolith — no separate API or SPA repo. The UI is intentionally minimal; effort went into the backend. |
+| Front end    | **Vue 3 + Inertia + Vite + Tailwind 4** (official Vue starter kit) | First-party, widely-adopted way to do Vue inside a Laravel monolith — no separate API or SPA repo. |
+| UI           | Custom **dark-mode** design with a small base-component library and composables (see below) | Pure Vue 3 Composition API + TypeScript. |
 | Auth         | **Laravel Fortify** (from the starter kit) | Standard, battle-tested registration/login/logout. Not hand-rolled. |
 | Database     | **MySQL 8** | Via Docker. Migrations + Eloquent throughout. |
 | Tests        | **Pest** | The modern default for new Laravel apps. |
 
-> The frontend is deliberately plain (a few Tailwind utility classes for
-> layout). Per the brief, the focus is backend quality, not visual design.
+### Frontend
+
+The UI is dark-first and built from a small, reusable base-component library
+(`resources/js/components/base/`) — `BaseButton`, `BaseInput`, `BaseTextarea`,
+`BaseBadge`, `BaseAvatar`, `BaseCard`, `StatCounter`, etc. — composed into the
+pages. Two composables drive the motion: `useInView` (IntersectionObserver-based
+scroll reveal) and `useCountUp` (animated stats). Everything is pure Vue 3
+Composition API with TypeScript. The public landing page at `/` features seeded
+members, animated stats, how-it-works, and success stories.
+
+> Demo member photos are loaded from the free **randomuser.me** portrait set, so
+> the browse/landing pages need an internet connection to show faces (names and
+> data come from the local database).
 
 ## Requirements
 

@@ -16,7 +16,8 @@ class HandleAppearance
      */
     public function handle(Request $request, Closure $next): Response
     {
-        View::share('appearance', $request->cookie('appearance') ?? 'system');
+        // TruLuv ships dark-first; fall back to dark unless the user opted out.
+        View::share('appearance', $request->cookie('appearance') ?? 'dark');
 
         return $next($request);
     }

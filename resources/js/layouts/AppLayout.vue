@@ -29,6 +29,9 @@ const auth = computed(
 const user = computed(() => auth.value?.user ?? null);
 const photo = computed(() => auth.value?.photo ?? null);
 const currentPath = computed(() => page.url.split('?')[0]);
+const unreadCount = computed(() =>
+    Number((page.props as { unreadCount?: number }).unreadCount ?? 0),
+);
 
 const nav = [
     { label: 'Browse', href: '/browse', icon: Search },
@@ -85,6 +88,14 @@ function logout(): void {
                         >
                             <component :is="item.icon" class="h-4 w-4" />
                             {{ item.label }}
+                            <span
+                                v-if="
+                                    item.href === '/conversations' && unreadCount > 0
+                                "
+                                class="ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-luv-gradient px-1.5 text-xs font-semibold text-white"
+                            >
+                                {{ unreadCount }}
+                            </span>
                         </Link>
                     </nav>
 
@@ -167,6 +178,12 @@ function logout(): void {
                 >
                     <component :is="item.icon" class="h-4 w-4" />
                     {{ item.label }}
+                    <span
+                        v-if="item.href === '/conversations' && unreadCount > 0"
+                        class="ml-0.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-luv-gradient px-1.5 text-xs font-semibold text-white"
+                    >
+                        {{ unreadCount }}
+                    </span>
                 </Link>
             </nav>
         </header>

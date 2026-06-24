@@ -10,6 +10,7 @@ interface ConversationSummary {
     other_name: string;
     other_photo: string | null;
     last_message: string | null;
+    unread: boolean;
 }
 
 defineProps<{
@@ -46,19 +47,36 @@ defineProps<{
                 :href="`/conversations/${conversation.id}`"
                 class="flex items-center gap-4 p-4 transition hover:bg-white/[0.03]"
             >
-                <BaseAvatar
-                    :src="conversation.other_photo"
-                    :alt="conversation.other_name"
-                    size="md"
-                />
+                <div class="relative">
+                    <BaseAvatar
+                        :src="conversation.other_photo"
+                        :alt="conversation.other_name"
+                        size="md"
+                    />
+                    <span
+                        v-if="conversation.unread"
+                        class="absolute -right-0.5 -top-0.5 h-3.5 w-3.5 rounded-full border-2 border-zinc-950 bg-luv-gradient"
+                    ></span>
+                </div>
                 <div class="min-w-0 flex-1">
                     <p class="font-semibold text-white">
                         {{ conversation.other_name }}
                     </p>
-                    <p class="truncate text-sm text-zinc-400">
+                    <p
+                        class="truncate text-sm"
+                        :class="
+                            conversation.unread
+                                ? 'font-medium text-white'
+                                : 'text-zinc-400'
+                        "
+                    >
                         {{ conversation.last_message ?? 'No messages yet' }}
                     </p>
                 </div>
+                <span
+                    v-if="conversation.unread"
+                    class="h-2.5 w-2.5 shrink-0 rounded-full bg-pink-500"
+                ></span>
             </Link>
         </BaseCard>
     </div>

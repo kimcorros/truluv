@@ -1,4 +1,5 @@
-import { onBeforeUnmount, onMounted, ref, type Ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
+import type { Ref } from 'vue';
 
 interface UseInViewOptions {
     /** Fraction of the element that must be visible to trigger (0–1). */
@@ -33,6 +34,7 @@ export function useInView(options: UseInViewOptions = {}): UseInViewReturn {
         if (!target.value || typeof IntersectionObserver === 'undefined') {
             // No observer support: show the content rather than hiding it.
             isVisible.value = true;
+
             return;
         }
 
@@ -41,6 +43,7 @@ export function useInView(options: UseInViewOptions = {}): UseInViewReturn {
                 for (const entry of entries) {
                     if (entry.isIntersecting) {
                         isVisible.value = true;
+
                         if (once) {
                             observer?.disconnect();
                         }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
-import { ArrowLeft, MessageCircle, Sparkles, Star, X } from '@lucide/vue';
+import { ArrowLeft, MessageCircle, Sparkles } from '@lucide/vue';
 import { computed } from 'vue';
 import GenderIcon from '@/components/GenderIcon.vue';
 import BaseBadge from '@/components/base/BaseBadge.vue';
@@ -33,10 +33,6 @@ const genderLabel = computed(() =>
 
 function message(): void {
     router.post('/conversations', { recipient_id: props.profile.id });
-}
-
-function pass(): void {
-    router.visit('/browse');
 }
 </script>
 
@@ -79,7 +75,7 @@ function pass(): void {
 
             <div class="absolute inset-x-0 bottom-0 p-6">
                 <h1
-                    class="flex items-center gap-2 text-3xl font-bold text-white drop-shadow"
+                    class="flex items-center gap-2 text-3xl font-bold text-white"
                 >
                     {{ profile.name }}, {{ profile.age }}
                     <GenderIcon :gender="profile.gender" />
@@ -88,34 +84,6 @@ function pass(): void {
                     {{ genderLabel }}
                 </p>
             </div>
-        </div>
-
-        <!-- Action bar (overlapping the photo, dating-app style) -->
-        <div class="-mt-7 mb-2 flex items-center justify-center gap-5">
-            <button
-                type="button"
-                class="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-zinc-900 text-zinc-300 shadow-xl transition hover:scale-105 hover:text-white"
-                title="Pass"
-                @click="pass"
-            >
-                <X class="h-6 w-6" />
-            </button>
-            <button
-                type="button"
-                class="flex h-16 w-16 items-center justify-center rounded-full bg-luv-gradient text-white shadow-xl transition hover:scale-105 hover:luv-glow"
-                title="Message"
-                @click="message"
-            >
-                <MessageCircle class="h-7 w-7" />
-            </button>
-            <button
-                type="button"
-                class="flex h-14 w-14 items-center justify-center rounded-full border border-white/10 bg-zinc-900 text-amber-300 shadow-xl transition hover:scale-105 hover:text-amber-200"
-                title="Super like"
-                @click="message"
-            >
-                <Star class="h-6 w-6" fill="currentColor" />
-            </button>
         </div>
 
         <!-- About -->

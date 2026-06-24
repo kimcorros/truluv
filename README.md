@@ -75,15 +75,18 @@ The suite runs against an in-memory SQLite database (configured in
 
 ## Features
 
-- **Auth** — register, login, logout (Fortify). A newly registered user is
-  redirected to complete their profile.
-- **Profile** — each user has a dating profile (`age`, optional `gender`,
-  `bio`). Users edit their own profile at **My profile**.
-- **Browse** — a paginated card view of other users' profiles (the current
-  user is excluded; only users who have completed a profile are shown).
+- **Auth** — register, login, logout (Fortify). The sign-up form captures the
+  user's **gender**, and a newly registered user is redirected to complete the
+  rest of their profile (age, bio, photo).
+- **Profile** — each user has a dating profile (`age`, `gender`, `photo`,
+  `bio`). Users edit their own profile at **My profile** (gender is a select).
+- **Browse** — a paginated (12/page) grid **or** list view of other users'
+  profiles with gender icons (the current user is excluded; only completed
+  profiles are shown).
 - **Messaging** — start a one-to-one conversation from a profile, view the
-  thread, and reply. The **Inbox** lists your conversations with the other
-  participant's name and the latest message preview.
+  thread, and reply. The **Inbox** lists your conversations with a preview and
+  marks unread chats. Opening a thread marks its messages **read**, and the
+  header **Inbox badge** shows how many chats still have unread messages.
 
 ## Architecture & decisions
 
@@ -91,10 +94,12 @@ The suite runs against an in-memory SQLite database (configured in
 
 ```
 users            (Laravel/Fortify default: id, name, email, password, ...)
-profiles         id, user_id (unique FK), age, gender (nullable), bio, timestamps
+profiles         id, user_id (unique FK), age, gender, photo_url, bio, timestamps
+                 (age/bio nullable: gender is set at sign-up, the rest later)
 conversations    id, user_one_id (FK), user_two_id (FK), timestamps
                  UNIQUE (user_one_id, user_two_id)
-messages         id, conversation_id (FK), sender_id (FK -> users), body, timestamps
+messages         id, conversation_id (FK), sender_id (FK -> users), body,
+                 read_at (nullable), timestamps
                  INDEX (conversation_id, created_at)
 ```
 

@@ -25,6 +25,9 @@ class ConversationController extends Controller
             ->forUser($me)
             ->with(['userOne.profile', 'userTwo.profile', 'latestMessage'])
             ->withMax('messages as last_message_at', 'created_at')
+            ->withCount(['messages as unread_count' => function ($query) use ($me) {
+                $query->where('sender_id', '!=', $me->id)->unread();
+            }])
             ->orderByDesc('last_message_at')
             ->get()
             ->map(function (Conversation $conversation) use ($me) {
@@ -35,6 +38,7 @@ class ConversationController extends Controller
                     'other_name' => $other->name,
                     'other_photo' => $other->profile?->photo_url,
                     'last_message' => $conversation->latestMessage?->body,
+                    'unread' => $conversation->unread_count > 0,
                 ];
             });
 
@@ -63,6 +67,13 @@ class ConversationController extends Controller
         $this->authorize('view', $conversation);
 
         $me = $request->user();
+
+        // Mark the other participant's messages as read now that we're viewing.
+        $conversation->messages()
+            ->where('sender_id', '!=', $me->id)
+            ->unread()
+            ->update(['read_at' => now()]);
+
         $conversation->load(['messages.sender', 'userOne.profile', 'userTwo.profile']);
         $other = $conversation->otherParticipant($me);
 

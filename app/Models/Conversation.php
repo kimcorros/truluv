@@ -73,8 +73,24 @@ class Conversation extends Model
      */
     public function scopeForUser(Builder $query, User $user): void
     {
-        $query->where('user_one_id', $user->id)
-            ->orWhere('user_two_id', $user->id);
+        // Wrapped so the OR can be safely combined with other constraints.
+        $query->where(function (Builder $query) use ($user) {
+            $query->where('user_one_id', $user->id)
+                ->orWhere('user_two_id', $user->id);
+        });
+    }
+
+    /**
+     * Limit to conversations that have at least one unread message addressed
+     * to (i.e. not sent by) the given user.
+     *
+     * @param  Builder<Conversation>  $query
+     */
+    public function scopeWithUnreadFor(Builder $query, User $user): void
+    {
+        $query->whereHas('messages', function (Builder $query) use ($user) {
+            $query->where('sender_id', '!=', $user->id)->unread();
+        });
     }
 
     /**

@@ -12,6 +12,7 @@ import {
     Star,
 } from '@lucide/vue';
 import { computed } from 'vue';
+import AppFooter from '@/components/AppFooter.vue';
 import AppContainer from '@/components/base/AppContainer.vue';
 import BaseAvatar from '@/components/base/BaseAvatar.vue';
 import BaseBadge from '@/components/base/BaseBadge.vue';
@@ -476,27 +477,6 @@ const safety = [
         </section>
 
         <!-- Footer -->
-        <footer class="border-t border-white/5 py-10">
-            <AppContainer>
-                <div
-                    class="flex flex-col items-center justify-between gap-4 sm:flex-row"
-                >
-                    <Link href="/" class="flex items-center gap-2">
-                        <span
-                            class="flex h-7 w-7 items-center justify-center rounded-lg bg-luv-gradient"
-                        >
-                            <Heart class="h-3.5 w-3.5 text-white" fill="currentColor" />
-                        </span>
-                        <span class="font-bold">
-                            Tru<span class="text-gradient">Luv</span>
-                        </span>
-                    </Link>
-                    <p class="text-sm text-zinc-500">
-                        &copy; {{ new Date().getFullYear() }} TruLuv. Made with love,
-                        Laravel &amp; Vue.
-                    </p>
-                </div>
-            </AppContainer>
-        </footer>
+        <AppFooter />
     </div>
 </template>

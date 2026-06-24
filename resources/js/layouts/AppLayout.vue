@@ -9,6 +9,7 @@ import {
     UserRound,
 } from '@lucide/vue';
 import { computed, ref } from 'vue';
+import AppFooter from '@/components/AppFooter.vue';
 import BaseAvatar from '@/components/base/BaseAvatar.vue';
 
 // Accepted (and ignored) so kit pages that pass breadcrumbs don't warn.
@@ -55,7 +56,7 @@ function logout(): void {
 </script>
 
 <template>
-    <div class="min-h-svh bg-zinc-950 text-zinc-100">
+    <div class="flex min-h-svh flex-col bg-zinc-950 text-zinc-100">
         <header
             class="sticky top-0 z-50 border-b border-white/5 bg-zinc-950/70 backdrop-blur-xl"
         >
@@ -188,8 +189,10 @@ function logout(): void {
             </nav>
         </header>
 
-        <main class="mx-auto max-w-6xl">
+        <main class="mx-auto w-full max-w-6xl flex-1">
             <slot />
         </main>
+
+        <AppFooter />
     </div>
 </template>

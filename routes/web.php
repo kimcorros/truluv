@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Route;
 // Public TruLuv landing page.
 Route::get('/', LandingController::class)->name('home');
 
+// Public legal pages.
+Route::inertia('terms', 'Terms')->name('terms');
+Route::inertia('privacy', 'Privacy')->name('privacy');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
 });

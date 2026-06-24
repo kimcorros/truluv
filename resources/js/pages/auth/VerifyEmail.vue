@@ -1,22 +1,23 @@
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
-import TextLink from '@/components/TextLink.vue';
-import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
-import { logout } from '@/routes';
-import { send } from '@/routes/verification';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import BaseButton from '@/components/base/BaseButton.vue';
 
 defineOptions({
     layout: {
-        title: 'Email verification',
-        description:
-            'Please verify your email address by clicking on the link we just emailed to you.',
+        title: 'Verify your email',
+        description: 'We sent a verification link to your inbox.',
     },
 });
 
 defineProps<{
     status?: string;
 }>();
+
+const form = useForm({});
+
+function resend(): void {
+    form.post('/email/verification-notification');
+}
 </script>
 
 <template>
@@ -24,24 +25,29 @@ defineProps<{
 
     <div
         v-if="status === 'verification-link-sent'"
-        class="mb-4 text-center text-sm font-medium text-green-600"
+        class="mb-4 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-center text-sm text-emerald-400"
     >
-        A new verification link has been sent to the email address you provided
-        during registration.
+        A new verification link has been sent to your email address.
     </div>
 
-    <Form
-        v-bind="send.form()"
-        class="space-y-6 text-center"
-        v-slot="{ processing }"
-    >
-        <Button :disabled="processing" variant="secondary">
-            <Spinner v-if="processing" />
+    <div class="space-y-5 text-center">
+        <BaseButton
+            block
+            size="lg"
+            variant="secondary"
+            :loading="form.processing"
+            @click="resend"
+        >
             Resend verification email
-        </Button>
+        </BaseButton>
 
-        <TextLink :href="logout()" as="button" class="mx-auto block text-sm">
+        <Link
+            href="/logout"
+            method="post"
+            as="button"
+            class="text-sm text-zinc-400 transition hover:text-white"
+        >
             Log out
-        </TextLink>
-    </Form>
+        </Link>
+    </div>
 </template>

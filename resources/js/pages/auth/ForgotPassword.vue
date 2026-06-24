@@ -1,24 +1,26 @@
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
-import InputError from '@/components/InputError.vue';
-import TextLink from '@/components/TextLink.vue';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
-import { login } from '@/routes';
-import { email } from '@/routes/password';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import BaseButton from '@/components/base/BaseButton.vue';
+import BaseInput from '@/components/base/BaseInput.vue';
 
 defineOptions({
     layout: {
         title: 'Forgot password',
-        description: 'Enter your email to receive a password reset link',
+        description: 'Enter your email and we will send you a reset link.',
     },
 });
 
 defineProps<{
     status?: string;
 }>();
+
+const form = useForm({
+    email: '',
+});
+
+function submit(): void {
+    form.post('/forgot-password');
+}
 </script>
 
 <template>
@@ -26,41 +28,29 @@ defineProps<{
 
     <div
         v-if="status"
-        class="mb-4 text-center text-sm font-medium text-green-600"
+        class="mb-4 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-center text-sm text-emerald-400"
     >
         {{ status }}
     </div>
 
-    <div class="space-y-6">
-        <Form v-bind="email.form()" v-slot="{ errors, processing }">
-            <div class="grid gap-2">
-                <Label for="email">Email address</Label>
-                <Input
-                    id="email"
-                    type="email"
-                    name="email"
-                    autocomplete="off"
-                    autofocus
-                    placeholder="email@example.com"
-                />
-                <InputError :message="errors.email" />
-            </div>
+    <form class="space-y-5" @submit.prevent="submit">
+        <BaseInput
+            v-model="form.email"
+            label="Email"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            :error="form.errors.email"
+            required
+        />
 
-            <div class="my-6 flex items-center justify-start">
-                <Button
-                    class="w-full"
-                    :disabled="processing"
-                    data-test="email-password-reset-link-button"
-                >
-                    <Spinner v-if="processing" />
-                    Email password reset link
-                </Button>
-            </div>
-        </Form>
+        <BaseButton type="submit" block size="lg" :loading="form.processing">
+            Email password reset link
+        </BaseButton>
+    </form>
 
-        <div class="space-x-1 text-center text-sm text-muted-foreground">
-            <span>Or, return to</span>
-            <TextLink :href="login()">log in</TextLink>
-        </div>
-    </div>
+    <p class="mt-6 text-center text-sm text-zinc-400">
+        Return to
+        <Link href="/login" class="font-semibold text-gradient">log in</Link>
+    </p>
 </template>

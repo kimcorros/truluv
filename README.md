@@ -26,7 +26,7 @@ scroll reveal) and `useCountUp` (animated stats). Everything is pure Vue 3
 Composition API with TypeScript. The public landing page at `/` features seeded
 members, animated stats, how-it-works, and success stories.
 
-> Demo member photos are loaded from the free **randomuser.me** portrait set, so
+> Demo member photos are loaded from the free **pravatar.cc** portrait set, so
 > the browse/landing pages need an internet connection to show faces (names and
 > data come from the local database).
 
@@ -52,8 +52,8 @@ database volume and re-seed fresh on the next run).
 
 ### Demo login
 
-The database is seeded with 10 users (each with a profile) and a few seeded
-conversations. Log in with:
+The database is seeded with ~60 users (each with a profile, ~5 pages of browse)
+and a few seeded conversations. Log in with:
 
 - **Email:** `alice@example.com`
 - **Password:** `password`

@@ -4,7 +4,16 @@ import BaseAvatar from '@/components/base/BaseAvatar.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import BaseCard from '@/components/base/BaseCard.vue';
 import BaseInput from '@/components/base/BaseInput.vue';
+import BaseSelect from '@/components/base/BaseSelect.vue';
 import BaseTextarea from '@/components/base/BaseTextarea.vue';
+
+const genderOptions = [
+    { value: '', label: 'Prefer not to say' },
+    { value: 'female', label: 'Woman' },
+    { value: 'male', label: 'Man' },
+    { value: 'non-binary', label: 'Non-binary' },
+    { value: 'other', label: 'Other' },
+];
 
 const props = defineProps<{
     profile: {
@@ -67,10 +76,10 @@ function submit(): void {
                         required
                         :error="form.errors.age"
                     />
-                    <BaseInput
+                    <BaseSelect
                         v-model="form.gender"
                         label="Gender"
-                        placeholder="Optional"
+                        :options="genderOptions"
                         :error="form.errors.gender"
                     />
                 </div>

@@ -26,7 +26,8 @@ scroll reveal) and `useCountUp` (animated stats). Everything is pure Vue 3
 Composition API with TypeScript. The public landing page at `/` features seeded
 members, animated stats, how-it-works, and success stories.
 
-> Demo member photos are loaded from the free **pravatar.cc** portrait set, so
+> Demo member photos are loaded from the free, gender-tagged **xsgames.co**
+> avatar set (so a profile's photo matches its gender), which means
 > the browse/landing pages need an internet connection to show faces (names and
 > data come from the local database).
 

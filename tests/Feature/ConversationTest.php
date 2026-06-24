@@ -1,7 +1,17 @@
 <?php
 
 use App\Models\Conversation;
+use App\Models\Message;
 use App\Models\User;
+use Inertia\Testing\AssertableInertia;
+
+function conversationBetween(User $a, User $b): Conversation
+{
+    return Conversation::create([
+        'user_one_id' => min($a->id, $b->id),
+        'user_two_id' => max($a->id, $b->id),
+    ]);
+}
 
 test('a user can start a conversation and send a message', function () {
     $alice = User::factory()->create();
@@ -75,4 +85,49 @@ test('a user cannot post messages to a conversation they are not part of', funct
         ->assertForbidden();
 
     $this->assertDatabaseMissing('messages', ['body' => 'Sneaking in']);
+});
+
+test('viewing a conversation marks the other person\'s messages as read', function () {
+    $alice = User::factory()->create();
+    $bob = User::factory()->create();
+    $conversation = conversationBetween($alice, $bob);
+
+    $fromBob = Message::factory()->create([
+        'conversation_id' => $conversation->id,
+        'sender_id' => $bob->id,
+    ]);
+    $fromAlice = Message::factory()->create([
+        'conversation_id' => $conversation->id,
+        'sender_id' => $alice->id,
+    ]);
+
+    $this->actingAs($alice)
+        ->get(route('conversations.show', $conversation))
+        ->assertOk();
+
+    // Bob's incoming message is now read; Alice's own message is untouched.
+    expect($fromBob->fresh()->read_at)->not->toBeNull();
+    expect($fromAlice->fresh()->read_at)->toBeNull();
+});
+
+test('the unread badge counts chats with unread messages then clears', function () {
+    $alice = User::factory()->create();
+    $bob = User::factory()->create();
+    $conversation = conversationBetween($alice, $bob);
+
+    Message::factory()->create([
+        'conversation_id' => $conversation->id,
+        'sender_id' => $bob->id,
+    ]);
+
+    $this->actingAs($alice)
+        ->get(route('conversations.index'))
+        ->assertInertia(fn (AssertableInertia $page) => $page->where('unreadCount', 1));
+
+    // Opening the thread marks it read, so the badge clears.
+    $this->actingAs($alice)->get(route('conversations.show', $conversation));
+
+    $this->actingAs($alice)
+        ->get(route('conversations.index'))
+        ->assertInertia(fn (AssertableInertia $page) => $page->where('unreadCount', 0));
 });

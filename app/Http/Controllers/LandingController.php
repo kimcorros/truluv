@@ -15,7 +15,7 @@ class LandingController extends Controller
     public function __invoke(Request $request): Response
     {
         $featured = User::query()
-            ->whereHas('profile')
+            ->whereHas('profile', fn ($query) => $query->whereNotNull('age')->whereNotNull('bio'))
             ->with('profile')
             ->inRandomOrder()
             ->take(8)

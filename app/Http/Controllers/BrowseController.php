@@ -17,7 +17,7 @@ class BrowseController extends Controller
     {
         $users = User::query()
             ->whereKeyNot($request->user()->id)
-            ->whereHas('profile')
+            ->whereHas('profile', fn ($query) => $query->whereNotNull('age')->whereNotNull('bio'))
             ->with('profile')
             ->orderBy('name')
             ->paginate(12)

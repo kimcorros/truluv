@@ -48,7 +48,8 @@ class ProfileController extends Controller
     {
         $user->load('profile');
 
-        abort_if($user->profile === null, 404);
+        // Only completed profiles are publicly viewable.
+        abort_if($user->profile === null || $user->profile->age === null, 404);
 
         return Inertia::render('profiles/Show', [
             'profile' => [

@@ -90,6 +90,18 @@ const faces = [
                 </div>
 
                 <slot />
+
+                <div
+                    class="mt-8 flex items-center justify-center gap-3 text-xs text-zinc-500"
+                >
+                    <Link href="/terms" class="transition hover:text-zinc-300">
+                        Terms &amp; Conditions
+                    </Link>
+                    <span class="text-zinc-700">&bull;</span>
+                    <Link href="/privacy" class="transition hover:text-zinc-300">
+                        Privacy Policy
+                    </Link>
+                </div>
             </div>
         </div>
     </div>

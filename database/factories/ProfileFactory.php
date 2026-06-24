@@ -18,26 +18,14 @@ class ProfileFactory extends Factory
      */
     public function definition(): array
     {
-        $gender = fake()->randomElement(['female', 'male', 'non-binary']);
-
         return [
             'user_id' => User::factory(),
             'age' => fake()->numberBetween(18, 65),
-            'gender' => $gender,
-            'photo_url' => $this->portrait($gender),
+            'gender' => fake()->randomElement(['female', 'male', 'non-binary']),
+            // High-resolution real-face portraits from the free pravatar.cc set
+            // (img 1–70). Used purely for demo seed data.
+            'photo_url' => 'https://i.pravatar.cc/600?img='.fake()->unique()->numberBetween(1, 70),
             'bio' => fake()->paragraph(),
         ];
-    }
-
-    /**
-     * A consistent, gender-appropriate portrait from the free randomuser.me
-     * photo set (used purely for demo seed data).
-     */
-    private function portrait(string $gender): string
-    {
-        $pool = $gender === 'male' ? 'men' : 'women';
-        $index = fake()->unique()->numberBetween(0, 98);
-
-        return "https://randomuser.me/api/portraits/{$pool}/{$index}.jpg";
     }
 }

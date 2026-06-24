@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             ->has(Profile::factory()->state([
                 'age' => 29,
                 'gender' => 'female',
-                'photo_url' => 'https://randomuser.me/api/portraits/women/65.jpg',
+                'photo_url' => 'https://i.pravatar.cc/600?img=5',
                 'bio' => 'Coffee, hiking and bad puns. Say hi!',
             ]))
             ->create([
@@ -32,9 +32,9 @@ class DatabaseSeeder extends Seeder
                 'email' => 'alice@example.com',
             ]);
 
-        // Nine more browsable users, each with a dating profile.
+        // 60 more browsable users (≈5 pages at 12 per page), each with a profile.
         $others = User::factory()
-            ->count(9)
+            ->count(60)
             ->has(Profile::factory())
             ->create();
 

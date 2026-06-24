@@ -18,14 +18,32 @@ class ProfileFactory extends Factory
      */
     public function definition(): array
     {
+        $gender = fake()->randomElement(['female', 'male', 'non-binary']);
+
         return [
             'user_id' => User::factory(),
             'age' => fake()->numberBetween(18, 65),
-            'gender' => fake()->randomElement(['female', 'male', 'non-binary']),
-            // High-resolution real-face portraits from the free pravatar.cc set
-            // (img 1–70). Used purely for demo seed data.
-            'photo_url' => 'https://i.pravatar.cc/600?img='.fake()->unique()->numberBetween(1, 70),
+            'gender' => $gender,
+            'photo_url' => $this->portrait($gender),
             'bio' => fake()->paragraph(),
         ];
+    }
+
+    /**
+     * A gender-matched real-face portrait from the free, gender-tagged
+     * xsgames.co avatar set (female/male, indices 0–78). Non-binary profiles
+     * draw from either pool. Used purely for demo seed data.
+     */
+    private function portrait(string $gender): string
+    {
+        $pool = match ($gender) {
+            'female' => 'female',
+            'male' => 'male',
+            default => fake()->randomElement(['female', 'male']),
+        };
+
+        $index = fake()->unique()->numberBetween(0, 78);
+
+        return "https://xsgames.co/randomusers/assets/avatars/{$pool}/{$index}.jpg";
     }
 }

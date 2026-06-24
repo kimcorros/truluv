@@ -20,11 +20,12 @@ class BrowseController extends Controller
             ->whereHas('profile')
             ->with('profile')
             ->orderBy('name')
-            ->paginate(9)
+            ->paginate(12)
             ->through(fn (User $user) => [
                 'id' => $user->id,
                 'name' => $user->name,
                 'age' => $user->profile->age,
+                'gender' => $user->profile->gender,
                 'photo' => $user->profile->photo_url,
                 'bio_excerpt' => Str::limit($user->profile->bio, 120),
             ]);

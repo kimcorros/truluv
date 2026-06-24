@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
 import { ArrowLeft, MessageCircle } from '@lucide/vue';
-import BaseBadge from '@/components/base/BaseBadge.vue';
+import GenderIcon from '@/components/GenderIcon.vue';
 import BaseButton from '@/components/base/BaseButton.vue';
 import BaseCard from '@/components/base/BaseCard.vue';
 
@@ -51,12 +51,12 @@ function message(): void {
                     class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent"
                 ></div>
                 <div class="absolute inset-x-0 bottom-0 p-6">
-                    <h1 class="text-3xl font-bold text-white">
+                    <h1
+                        class="flex items-center gap-3 text-3xl font-bold text-white"
+                    >
                         {{ profile.name }}, {{ profile.age }}
+                        <GenderIcon :gender="profile.gender" show-label />
                     </h1>
-                    <BaseBadge v-if="profile.gender" variant="soft" class="mt-2">
-                        {{ profile.gender }}
-                    </BaseBadge>
                 </div>
             </div>
 

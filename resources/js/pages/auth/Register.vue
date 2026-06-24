@@ -83,6 +83,17 @@ function submit(): void {
         <BaseButton type="submit" block size="lg" :loading="form.processing">
             Create account
         </BaseButton>
+
+        <p class="text-center text-xs leading-relaxed text-zinc-500">
+            By joining, you agree to our
+            <Link href="/terms" class="text-pink-400 transition hover:text-pink-300">
+                Terms &amp; Conditions
+            </Link>
+            and
+            <Link href="/privacy" class="text-pink-400 transition hover:text-pink-300">
+                Privacy Policy </Link
+            >.
+        </p>
     </form>
 
     <p class="mt-6 text-center text-sm text-zinc-400">

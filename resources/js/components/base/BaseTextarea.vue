@@ -1,4 +1,6 @@
 <script setup lang="ts">
+defineOptions({ inheritAttrs: false });
+
 withDefaults(
     defineProps<{
         label?: string;
@@ -29,6 +31,7 @@ const fieldId = `tl-textarea-${++count}`;
         </label>
         <textarea
             :id="fieldId"
+            v-bind="$attrs"
             v-model="model"
             :rows="rows"
             :placeholder="placeholder"

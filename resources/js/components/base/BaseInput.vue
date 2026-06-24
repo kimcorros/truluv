@@ -1,4 +1,6 @@
 <script setup lang="ts">
+defineOptions({ inheritAttrs: false });
+
 withDefaults(
     defineProps<{
         label?: string;
@@ -30,6 +32,7 @@ const inputId = `tl-input-${++count}`;
         </label>
         <input
             :id="inputId"
+            v-bind="$attrs"
             v-model="model"
             :type="type"
             :placeholder="placeholder"

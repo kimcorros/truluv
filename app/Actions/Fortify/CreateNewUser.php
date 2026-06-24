@@ -21,13 +21,22 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             ...$this->profileRules(),
+            'gender' => ['nullable', 'string', 'in:female,male,non-binary,other'],
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => $input['password'],
         ]);
+
+        // Capture the gender chosen at sign-up; the rest of the profile is
+        // completed afterwards on the profile editor.
+        if (! empty($input['gender'])) {
+            $user->profile()->create(['gender' => $input['gender']]);
+        }
+
+        return $user;
     }
 }

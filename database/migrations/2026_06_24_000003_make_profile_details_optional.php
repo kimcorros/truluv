@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * Allow a profile to exist before it is fully completed, so a user can set
+     * their gender during registration and fill in age/bio afterwards. Browse
+     * only lists completed profiles (age + bio present).
+     */
+    public function up(): void
+    {
+        Schema::table('profiles', function (Blueprint $table) {
+            $table->unsignedTinyInteger('age')->nullable()->change();
+            $table->text('bio')->nullable()->change();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('profiles', function (Blueprint $table) {
+            $table->unsignedTinyInteger('age')->nullable(false)->change();
+            $table->text('bio')->nullable(false)->change();
+        });
+    }
+};

@@ -2,6 +2,7 @@
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import BaseButton from '@/components/base/BaseButton.vue';
 import BaseInput from '@/components/base/BaseInput.vue';
+import BaseSelect from '@/components/base/BaseSelect.vue';
 
 defineOptions({
     layout: {
@@ -10,9 +11,18 @@ defineOptions({
     },
 });
 
+const genderOptions = [
+    { value: '', label: 'Prefer not to say' },
+    { value: 'female', label: 'Woman' },
+    { value: 'male', label: 'Man' },
+    { value: 'non-binary', label: 'Non-binary' },
+    { value: 'other', label: 'Other' },
+];
+
 const form = useForm({
     name: '',
     email: '',
+    gender: '',
     password: '',
     password_confirmation: '',
 });
@@ -44,6 +54,12 @@ function submit(): void {
             autocomplete="email"
             :error="form.errors.email"
             required
+        />
+        <BaseSelect
+            v-model="form.gender"
+            label="I am a"
+            :options="genderOptions"
+            :error="form.errors.gender"
         />
         <BaseInput
             v-model="form.password"

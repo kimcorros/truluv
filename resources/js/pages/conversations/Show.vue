@@ -22,6 +22,17 @@ const form = useForm({
     body: '',
 });
 
+// Render the UTC timestamp in the viewer's own local timezone.
+function formatSentAt(iso: string): string {
+    return new Date(iso).toLocaleString(undefined, {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+    });
+}
+
 function submit(): void {
     form.post(`/conversations/${props.conversation.id}/messages`, {
         preserveScroll: true,
@@ -80,7 +91,7 @@ function submit(): void {
                         class="mt-1 text-xs text-zinc-500"
                         :class="message.mine ? 'text-right' : 'text-left'"
                     >
-                        {{ message.sent_at }}
+                        {{ formatSentAt(message.sent_at) }}
                     </p>
                 </div>
             </div>

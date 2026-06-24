@@ -88,7 +88,9 @@ class ConversationController extends Controller
                 'body' => $message->body,
                 'mine' => $message->sender_id === $me->id,
                 'sender_name' => $message->sender->name,
-                'sent_at' => $message->created_at->format('M j, Y g:i A'),
+                // ISO/UTC timestamp; the frontend renders it in the viewer's
+                // local timezone.
+                'sent_at' => $message->created_at->toIso8601String(),
             ]),
         ]);
     }
